@@ -60,7 +60,7 @@ return [
             'port' => '5432',
             'database' => 'afiliadosalud',
             'username' => 'postgres',
-            'password' => 'rrh2017',
+            'password' => 'postgres',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
