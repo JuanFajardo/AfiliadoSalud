@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => 'Sistema de busqueda de usuarios asegurados',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' =>  false,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => 'http://sus.potosi.bo/index.php',
 
     /*
     |--------------------------------------------------------------------------

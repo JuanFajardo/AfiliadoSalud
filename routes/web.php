@@ -26,8 +26,8 @@ Route::resource('Afiliado', 'AfiliadoController');
 Route::get('Buscar', 'AfiliadoController@buscarGet');
 Route::post('Buscar', 'AfiliadoController@buscarPost');
 
-Route::get('Importar', 'AfiliadoController@importarGet');
-Route::post('Importar', 'AfiliadoController@importarPost');
+//Route::get('Importar', 'AfiliadoController@importarGet');
+//Route::post('Importar', 'AfiliadoController@importarPost');
 
 
 Route::get('/Reporte', 'ReporteController@index');
