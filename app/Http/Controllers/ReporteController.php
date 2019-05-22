@@ -11,40 +11,31 @@ class ReporteController extends Controller
   }
 
   public function index(){
-      $proveedores = \App\Proveedor::all();
-      return view('reporte.index', compact('proveedores'));
+
+      return view('reporte.index');
     }
 
     public function reporte(Request $request){
       $inicio     = date("d-m-Y",strtotime($request->inicio."- 1 days")); 	    //"2019-02-01"
       $fin	      = date("d-m-Y",strtotime($request->fin."+ 1 days"));       //"2019-02-28"
-      $ffof       = $request->ffof;	      //"todo"
-      $tipo       = $request->tipo;	      //"todo"
-      $combustible= $request->combustible;	//null
-      $usuario    = $request->usuario;	      //null
-      $id_proyecto= $request->id_proyecto;	//"todo"
-      $btn	      = $request->btn;       //"pdf"
 
-      $raw1 =  $ffof        != "todo" ? "boletas.ffof       = '".$ffof."' " : " 1 = 1 ";
-      $raw2 =  $tipo        != "todo" ? "boletas.tipo       = '".$tipo."' " : " 1 = 1 ";
-      $raw3 =  $combustible != null   ? "boletas.combustible= '".$combustible."' " : " 1 = 1 ";
-      $raw4 =  $usuario     != null   ? "boletas.id_user    = '".$usuario."' " : " 1 = 1 ";
-      $raw5 =  $id_proyecto != "todo" ? "boletas.id_proyecto= '".$id_proyecto."' " : " 1 = 1 ";
+
+      $salud    = $request->salud;	//null
+      $usuario  = $request->usuario;	      //null
+      $btn	    = $request->btn;       //"pdf"
+
+
+      $raw1 =  $salud   != null   ? "logs.centrosalud = '".$salud."' " : " 1 = 1 ";
+      $raw2 =  $usuario != null   ? "logs.usuario = '".$usuario."' " : " 1 = 1 ";
 
 
 
-      $datos = \DB::table('boletas')->join('proyectos', 'boletas.id_proyecto', '=', 'proyectos.id')
-                                    ->join('users', 'boletas.id_user', '=', 'users.id')
-                                    ->whereNull('boletas.deleted_at')
-                                    ->where('boletas.fecha', '>', $inicio)
-                                    ->where('boletas.fecha', '<', $fin)
-                                    ->whereRaw($raw1)
-                                    ->whereRaw($raw2)
-                                    ->whereRaw($raw3)
-                                    ->whereRaw($raw4)
-                                    ->whereRaw($raw5)
-                                    ->select('boletas.*', 'proyectos.*', 'users.name', 'users.email')
-                                    ->get();
+
+      $datos = \DB::table('logs')->where('logs.created_at', '>', $inicio)
+                                 ->where('logs.created_at', '<', $fin)
+                                 ->whereRaw($raw1)
+                                 ->whereRaw($raw2)
+                                 ->select('logs.*')->get();
       if($btn == "doc"){
         return view('reporte.pdf', compact('datos', 'inicio', 'fin'));
       }elseif ($btn == "xls") {
@@ -55,9 +46,12 @@ class ReporteController extends Controller
       }
     }
 
+
   public function claveGet(){
     return view('auth.clave');
   }
+
+
 
   public function clavePost(Request $request){
     //return $request->all();
