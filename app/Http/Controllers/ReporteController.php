@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller
 {
   public function __construct(){
-    //$this->middleware('auth');
+    $this->middleware('auth');
+    if( \Auth::guest() )
+      return redirect('index.php/login');
   }
 
   public function index(){
@@ -16,8 +18,8 @@ class ReporteController extends Controller
     }
 
     public function reporte(Request $request){
-      $inicio     = date("d-m-Y",strtotime($request->inicio."- 1 days")); 	    //"2019-02-01"
-      $fin	      = date("d-m-Y",strtotime($request->fin."+ 1 days"));       //"2019-02-28"
+      $inicio     = date("Y-m-d",strtotime($request->inicio."- 1 days")); 	    //"2019-02-01"
+      $fin	      = date("Y-m-d",strtotime($request->fin."+ 1 days"));       //"2019-02-28"
 
 
       $salud    = $request->salud;	//null
@@ -25,17 +27,16 @@ class ReporteController extends Controller
       $btn	    = $request->btn;       //"pdf"
 
 
-      $raw1 =  $salud   != null   ? "logs.centrosalud = '".$salud."' " : " 1 = 1 ";
-      $raw2 =  $usuario != null   ? "logs.usuario = '".$usuario."' " : " 1 = 1 ";
+      $raw1 =  $salud   != null   ? "centrosalud = '".$salud."' " : " 1 = 1 ";
+      $raw2 =  $usuario != null   ? "usuario = '".$usuario."' " : " 1 = 1 ";
 
 
-
-
-      $datos = \DB::table('logs')->where('logs.created_at', '>', $inicio)
-                                 ->where('logs.created_at', '<', $fin)
+      $datos = \DB::table('logs')->where('created_at', '>', $inicio)
+                                 ->where('created_at', '<', $fin)
                                  ->whereRaw($raw1)
                                  ->whereRaw($raw2)
-                                 ->select('logs.*')->get();
+                                 ->get();
+      
       if($btn == "doc"){
         return view('reporte.pdf', compact('datos', 'inicio', 'fin'));
       }elseif ($btn == "xls") {

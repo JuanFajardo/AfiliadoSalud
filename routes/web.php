@@ -12,9 +12,10 @@
 */
 
 Route::get('/', function () {
-    if ( !isset( \Auth::user()->id ) )
-      return view('auth.login');
-    else
+    if ( !isset( \Auth::user()->id ) ){
+      $link = asset('index.php/login');
+      return redirect($link);
+    }else
       return redirect('/Afiliado');
 });
 

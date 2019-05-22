@@ -9,7 +9,9 @@ use Maatwebsite\Excel\Facades\Excel;
 class AfiliadoController extends Controller
 {
   public function __construct(){
-    //$this->middleware('auth');
+    $this->middleware('auth');
+    if( \Auth::guest() )
+      return redirect('index.php/login');
   }
 
   public function index(Request $request){
