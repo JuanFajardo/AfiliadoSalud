@@ -27,34 +27,27 @@ class UsuarioController extends Controller
   protected function validator(array $data)
   {
       return Validator::make($data, [
+
           'name' => 'required|max:255',
-          'email' => 'required|email|max:255|unique:users',
+          'email' => 'required|email|max:255',
           'password' => 'required|confirmed|min:6',
-          'nombres' => 'required|max:255',
-          'apellidos' => 'required|max:255',
-          'ci' => 'required|numeric',
+          'salud' => 'required|max:255',
+          'grupo' => 'required|numeric',
       ]);
   }
 
   protected function create(Request $data)
   {
-      $estado = false;
-      if($data['estado'] == 'on'){
-          $estado = true;
-      }
+    //return "bett0";
       User::create([
           'name' => $data['name'],
           'email' => $data['email'],
           'password' => bcrypt($data['password']),
-          'grupo_id' => $data['grupo_id'],
-          'nombres' => $data['nombres'],
-          'apellidos' => $data['apellidos'],
-          'ci' => $data['ci'],
-          'direccion' => $data['direccion'],
-          'telefono' => $data['telefono'],
-          'observacion' => $data['observacion'],
-          'estado'=> $estado,
+          'log' => "",
+          'salud' => $data['salud'],
+          'grupo' => $data['grupo'],
       ]);
+
       return redirect('/usuarios');
   }
 
@@ -65,24 +58,14 @@ class UsuarioController extends Controller
 
   public function update(Request $request, $id){
     $user = User::find($id);
-    $estado = false;
-    if($request->input('estado') == 'on'){
-        $estado = true;
-    }
     $user->name       = $request->input('name');
     $user->email      = $request->input('email');
     if( strlen($request->input('password')) > 0 )
       $user->password = bcrypt($request->input('password'));
-    $user->grupo_id   = $request->input('grupo_id');
-    $user->nombres    = $request->input('nombres');
-    $user->apellidos  = $request->input('apellidos');
-    $user->ci         = $request->input('ci');
-    $user->direccion  = $request->input('direccion');
-    $user->telefono   = $request->input('telefono');
-    $user->observacion= $request->input('observacion');
-    $user->estado     = $estado;
+    $user->grupo      = $request->input('grupo');
+    $user->salud      = $request->input('salud');
     $user->save();
-    return  redirect()->action('HomeController@index');
+    return redirect('/usuarios');
   }
 
   public function viewuser($id){

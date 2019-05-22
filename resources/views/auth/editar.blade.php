@@ -45,7 +45,7 @@
                   <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                       <label for="email" class="col-md-4 control-label">Nombre Completo</label>
                       <div class="col-md-6">
-                          {!! Form::email('email',  old('email'), ['id'=>'email', 'class'=>'form-control', 'placeholder'=>'correo@correo.com']) !!}
+                          {!! Form::text('email',  old('email'), ['id'=>'email', 'class'=>'form-control', 'placeholder'=>'correo@correo.com']) !!}
                           @if ($errors->has('email'))
                               <span class="help-block">{{ $errors->first('email') }}</span>
                           @endif
