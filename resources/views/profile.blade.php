@@ -3,7 +3,9 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
             <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html"><strong>GAMP</strong></a>
+        <a class="navbar-brand" href="index.html">
+          <img src="{{asset('img/logogamp.png')}}" width="100" alt="" class="img-thumbnail">
+        </a>
     </div>
 
     <ul class="nav navbar-top-links navbar-right">
@@ -12,7 +14,7 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="{{asset('/index.php/clave')}}"><i class="fa fa-user fa-fw"></i> {{ \Auth::user()->email}} </a> </li>
+                <li><a href="{{asset('/index.php/clave')}}"><i class="fa fa-user fa-fw"></i> {{ \Auth::user()->email}} - {{ \Auth::user()->grupo}} </a> </li>
                 <li class="divider"></li>
                 <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out fa-fw"></i> Cerrar Sesion </a>

@@ -6,14 +6,14 @@
                 <a @yield('menu') href="{{asset('index.php')}}"><i class="fa fa-home"></i> Inicio </a>
             </li>
             <li>
-                <a @yield('menuBuscar') href="{{asset('index.php/Buscar')}}"><i class="fa fa-search"></i> Buscar </a>
+                <a @yield('menuBuscar') href="{{asset('index.php/Buscar')}}"><i class="fa fa-search"></i> Buscar</a>
             </li>
-            @if( \Auth::user()->grupo == "administrador" )
+            @if( trim(\Auth::user()->grupo) == "Administrador" )
             <li>
                 <a @yield('menuReporte') href="{{asset('index.php/Reporte')}}"><i class="fa fa-file"></i> Reporte </a>
             </li>
             <li>
-                <a @yield('menuUsuario') href="{{asset('index.php/Buscar')}}"><i class="fa fa-user"></i> Usuarios </a>
+                <a @yield('menuUsuario') href="{{asset('index.php/usuarios')}}"><i class="fa fa-user"></i> Usuarios </a>
             </li>
             @endif
 

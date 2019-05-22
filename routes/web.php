@@ -20,18 +20,24 @@ Route::get('/', function () {
 
 Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
-
 Route::resource('Afiliado', 'AfiliadoController');
-
+//Busqueda Afgiliado
 Route::get('Buscar', 'AfiliadoController@buscarGet');
 Route::post('Buscar', 'AfiliadoController@buscarPost');
-
-//Route::get('Importar', 'AfiliadoController@importarGet');
-//Route::post('Importar', 'AfiliadoController@importarPost');
-
-
+//Reporte
 Route::get('/Reporte', 'ReporteController@index');
 Route::post('/Reporte', 'ReporteController@reporte');
-
+//Cambio de contraseña por perfil
 Route::get('/clave', 'ReporteController@claveGet')->name('usuario.clave');
 Route::post('/clave', 'ReporteController@clavePost')->name('usuario.cambiar');
+// Administracion de Usuarios
+
+
+Route::get('usuarios', 'UsuarioController@index');
+Route::get('usuarios/create', 'UsuarioController@showRegistrationForm');
+Route::post('usuarios', 'UsuarioController@create');
+Route::get('usuarios/{id}', 'UsuarioController@viewuser');
+Route::get('usuarios/{id}/edit', 'UsuarioController@edit');
+Route::patch('usuarios/{id}', 'UsuarioController@update');
+Route::get('usuarios/info/ver', 'UsuarioController@profile');
+Route::post('usuarios/info/ver', 'UsuarioController@profileActulizar');
