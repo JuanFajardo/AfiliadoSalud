@@ -8,7 +8,15 @@
             <li>
                 <a @yield('menuBuscar') href="{{asset('index.php/Buscar')}}"><i class="fa fa-search"></i> Buscar </a>
             </li>
-            
+            @if( \Auth::user()->grupo == "administrador" )
+            <li>
+                <a @yield('menuReporte') href="{{asset('index.php/Reporte')}}"><i class="fa fa-file"></i> Reporte </a>
+            </li>
+            <li>
+                <a @yield('menuUsuario') href="{{asset('index.php/Buscar')}}"><i class="fa fa-user"></i> Usuarios </a>
+            </li>
+            @endif
+
         </ul>
     </div>
 </nav>

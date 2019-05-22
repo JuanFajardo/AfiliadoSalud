@@ -6,7 +6,7 @@
 @endsection
 @section('descripcion') cantidad de personas aseguradas por centro de salud @endsection
 @section('titulo')
-  <a href="{{asset('index.php')}}" style="color:#fff;"> <i class="fa fa-home"></i> Inicio </a>
+  <a href="{{asset('index.php')}}" style="color:#fff;"> <i class="fa fa-home"></i> Gobierno Autónomo Municipal de Potosi - Ciudad Modelo </a>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
  @endsection
@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-9 col-sm-12 col-xs-12">
           <div class="panel-right">
-        	   <h3>{{$dato->numero}}</h3>
+        	   <h3>{{$dato->numero}}</h3> <small>{{$dato->sigla }}</small>
             <strong> {{$dato->centro_salud }} </strong>
           </div>
         </div>

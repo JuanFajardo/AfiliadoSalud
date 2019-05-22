@@ -14,10 +14,11 @@ class AfiliadoController extends Controller
 
   public function index(Request $request){
     $datos = \DB::table('afiliados')->select('sigla', \DB::raw('count(sigla) as numero'), 'centro_salud')->groupBy('sigla', 'centro_salud')->get();
+    $msj = "Aun no se realizo una busqueda";
     if ($request->ajax()) {
       return $datos;
     }else{
-      return view('afiliado.index', compact('datos'));
+      return view('afiliado.index', compact('datos', 'msj'));
     }
   }
 
@@ -76,18 +77,70 @@ class AfiliadoController extends Controller
 
   public function buscarGet(){
     $datos = array();
-    return view('afiliado.buscar', compact('datos'));
+    $msj = "Aun no se realizo una busqueda";
+    return view('afiliado.buscar', compact('datos', 'msj'));
   }
 
   public function buscarPost(Request $request){
+    if($request->boton == "Limpiar Datos"){
+      return redirect('Buscar');
+    }
     $log = new \App\Log;
     $log->usuario = \Auth::user()->name;
     $log->ip = \Request::ip();
-    $log->dato = $request->dato;
-    $log->opcion = $request->opcion;
+    $log->dato = $request->ci + " " + $request->nombre + " " + $request->paterno + " " + $request->materno;
+    $log->opcion = "";
     $log->centrosalud = \Auth::user()->salud;
-    $datos = \DB::table('afiliados')->where($request->opcion, 'like', strtoupper( $request->dato.'%'))->get();
-    return view('afiliado.buscar', compact('datos'));
+    $log->save();
+
+
+    $ci = $nombre = $paterno = $materno = " 1 = 1";
+    $link = asset('index.php/Buscar');
+    if($request->ci == "" && $request->nombre  == "" && $request->paterno == ""  && $request->materno == "" ){
+      return "<script>alert('Los campos de busqueda estan vacios'); location.href='".$link."';</script>";
+    }elseif( $request->paterno == ""  && $request->materno == ""  && $request->ci == ""){
+      return "<script>alert('Ingrese algun apellido'); location.href='".$link."';</script>";
+    }elseif( ($request->nombre == ""  && $request->materno != "" && $request->ci == "") || ($request->nombre == ""  && $request->paterno != "" && $request->ci == "" ) ){
+      return "<script>alert('Ingrese un nombre'); location.href='".$link."';</script>";
+    }elseif(
+      ($request->ci[0] != "%" && $request->ci != "'"  && $request->ci[0] == " " || !isset($request->ci) )||
+      ($request->nombre[0] != "%" && $request->nombre != "'"  && $request->nombre[0] == " " && !isset($request->nombre) )||
+      ($request->paterno[0] != "%" && $request->paterno != "'"  && $request->paterno[0] == " " && !isset($request->paterno) )||
+      ($request->materno[0] != "%" && $request->materno != "'"  && $request->materno[0] == " " && !isset($request->materno))
+    ){
+
+      if(isset($request->ci)){
+        $ci = " ci like ('".$request->ci."%') ";
+      }
+      if( isset($request->nombre) ){
+        $nombre = " nombre like ('%".strtoupper($request->nombre)."%')";
+      }
+      if( isset($request->paterno) ){
+        $paterno = " paterno like ('".strtoupper($request->paterno)."%')";
+      }
+      if( isset($request->materno) ){
+        $materno = " materno like ('".strtoupper($request->materno)."%')";
+      }
+
+    }else{
+
+      $ci = $nombre = $paterno = $materno = " 1 = -1";
+    }
+
+    $datos = \DB::table('afiliados')
+                                    //->whereRaw($request->opcion, 'like', strtoupper( $request->dato.'%'))
+                                    ->whereRaw( $ci )
+                                    ->whereRaw( $nombre )
+                                    ->whereRaw( $paterno )
+                                    ->whereRaw( $materno )
+                                    ->get();
+    if( count($datos) == 0){
+      $msj = "No se encontro ningun dato.";
+    }else{
+      $msj = count($datos);
+    }
+
+    return view('afiliado.buscar', compact('datos', 'msj'));
   }
 
   public function importarGet(){
