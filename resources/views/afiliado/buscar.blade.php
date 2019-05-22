@@ -1,6 +1,5 @@
 @extends('gamp')
 
-
 @section('title') Busqueda @endsection
 
 @section('ventana') Busqueda
