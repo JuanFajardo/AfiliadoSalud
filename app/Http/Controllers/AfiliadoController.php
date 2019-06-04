@@ -87,18 +87,21 @@ class AfiliadoController extends Controller
     if($request->boton == "Limpiar Datos"){
       return redirect('Buscar');
     }
+    
     $log = new \App\Log;
     $log->usuario = \Auth::user()->name;
     $log->ip = \Request::ip();
-    $log->dato = $request->ci + " " + $request->nombre + " " + $request->paterno + " " + $request->materno;
+    $log->dato = $request->ci . " " . $request->nombre . " " . $request->paterno . " " . $request->materno;
     $log->opcion = "";
     $log->centrosalud = \Auth::user()->salud;
     $log->save();
 
-
     $ci = $nombre = $paterno = $materno = " 1 = 1";
     $link = asset('index.php/Buscar');
-    if($request->ci == "" && $request->nombre  == "" && $request->paterno == ""  && $request->materno == "" ){
+
+    if(isset($request->ci) && strlen($request->ci) > 4 ){
+      $ci = " carnet like ('".$request->ci."%') ";
+    }elseif($request->ci == "" && $request->nombre  == "" && $request->paterno == ""  && $request->materno == "" ){
       return "<script>alert('Los campos de busqueda estan vacios'); location.href='".$link."';</script>";
     }elseif( $request->paterno == ""  && $request->materno == ""  && $request->ci == ""){
       return "<script>alert('Ingrese algun apellido'); location.href='".$link."';</script>";
@@ -111,9 +114,7 @@ class AfiliadoController extends Controller
       ($request->materno[0] != "%" && $request->materno != "'"  && $request->materno[0] == " " && !isset($request->materno))
     ){
 
-      if(isset($request->ci)){
-        $ci = " ci like ('".$request->ci."%') ";
-      }
+
       if( isset($request->nombre) ){
         $nombre = " nombre like ('%".strtoupper($request->nombre)."%')";
       }

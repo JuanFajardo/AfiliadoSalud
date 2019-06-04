@@ -26,11 +26,11 @@
         <tr>
 
           <th> Nro</th>
-          <th> Usuario </th>
           <th> IP</th>
+          <th> Usuario </th>
           <th> Fecha</th>
-          <th> Centro de Salud </th>
           <th> Busqueda </th>
+          <th> Centro de Salud </th>
 
         </tr>
       </thead>
@@ -38,9 +38,9 @@
         @foreach($datos as $dato)
           <tr>
             <td> {{$nr}}</td>
-            <td> {{ $dato->usuario }}  </td>
             <td> {{ $dato->ip }} </td>
-            <td> {{ date('d-m-Y H:i:s', strtotime($dato->created_at)) }}  </td>
+            <td> {{ $dato->usuario }}  </td>
+            <td> {{ date('d/m/Y H:i:s', strtotime($dato->created_at)) }}  </td>
             <td> {{ $dato->dato }}  </td>
             <td> {{ $dato->centrosalud }}      </td>
           </tr><?php $nr = $nr + 1; ?>
