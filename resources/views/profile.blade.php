@@ -3,7 +3,7 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
             <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="{{asset('index.php')}}">
           <img src="{{asset('img/logogamp.png')}}" width="100" alt="" class="img-thumbnail">
         </a>
     </div>

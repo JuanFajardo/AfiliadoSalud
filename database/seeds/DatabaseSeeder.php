@@ -17,13 +17,23 @@ class DatabaseSeeder extends Seeder
 
         \DB::table('users')->insert([
           'id' => '1',
+          'name' => 'bett0',
+          'email' => 'bett0',
+          'password' => bcrypt('123456'),
+          'salud' => 'POTOSI',
+          'log' => '0',
+          'grupo' => 'Administrador'
+        ]);
+        /*
+        \DB::table('users')->insert([
+          'id' => '1',
           'name' => 'WFLORES',
           'email' => 'WILBER FLORES VILLEGAS',
           'password' => bcrypt('WFLORES3875960'),
           'salud' => 'POTOSI',
           'log' => '0',
           'grupo' => 'Administrador'
-        ]);
+        ]);*/
 
         \DB::table('users')->insert([
           'id' => '2',
@@ -44,6 +54,8 @@ class DatabaseSeeder extends Seeder
           'log' => '0',
           'grupo' => 'Administrador'
         ]);
+
+
 
     }
 }

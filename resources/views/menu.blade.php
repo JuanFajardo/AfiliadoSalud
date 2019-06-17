@@ -1,5 +1,5 @@
 <nav class="navbar-default navbar-side" role="navigation">
-<div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
+<div id="sideNav" href="{{asset('index.php')}}"><i class="fa fa-caret-right"></i></div>
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li>
