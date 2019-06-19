@@ -65,6 +65,7 @@
     <tr>
       <th>Matricula</th>
       <th>Nombre Completo</th>
+      <th>Fecha Nac.</th>
       <th>Carnet</th>
       <th>Sexo</th>
 
@@ -77,6 +78,7 @@
       <tr data-id="{{ $dato->id }}">
         <td>{{ $dato->matricula }}</td>
         <td>{{ $dato->nombre }}, {{ $dato->paterno }} {{ $dato->materno }}</td>
+        <td>{{ $dato->fecha_nacimiento }}</td>
         <td>{{ $dato->carnet }}</td>
         <td>{{ $dato->sexo }}</td>
         <td>{{ $dato->regional }}</td>

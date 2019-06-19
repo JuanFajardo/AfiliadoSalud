@@ -132,7 +132,7 @@ active
                           <button type="submit" class="btn btn-warning">
                               <i class="fa fa-btn fa-user"></i> Actualizar
                           </button>
-                          <a href="{{asset('/home')}}" class="btn btn-primary">
+                          <a href="{{asset('/Afiliado')}}" class="btn btn-primary">
                             <i class="fa fa-btn fa-times-circle"></i> Cancelar</a>
                       </div>
                   </div>

@@ -101,7 +101,7 @@
                   </div>
                   <div class="form-group">
                       <div class="col-md-6 col-md-offset-4">
-                          <a href="{{asset('/home')}}" class="btn btn-primary">
+                          <a href="{{asset('/Afiliado')}}" class="btn btn-primary">
                             <i class="fa fa-btn fa-times-circle"></i> Cancelar</a>
                       </div>
                   </div>
