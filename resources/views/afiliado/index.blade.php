@@ -1,42 +1,37 @@
-@extends('gamp')
+@extends('master')
 
 @section('title') Inicio @endsection
 
-@section('ventana') Inicio
-@endsection
-@section('descripcion') cantidad de personas aseguradas por centro de salud @endsection
 @section('titulo')
-  <a href="{{asset('index.php')}}" style="color:#fff;"> <i class="fa fa-home"></i> Gobierno Autónomo Municipal de Potosi - Ciudad Modelo </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+  <h4> <i class="ti-home menu-icon"></i> Inicio</h4>
  @endsection
 
 @section('menu')
- class="active-menu"
+ active
 @endsection
 
-@section('cuerpo')
-
+@section('listado')
+  <?php $suma = 0; ?>
   @foreach($datos as $dato)
-  <div class="col-md-4 col-sm-12 col-xs-12">
-    <div class="panel panel-primary text-center no-boder blue">
-      <div class="row">
-        <div class="col-md-3 col-sm-12 col-xs-12">
-          <div class="panel-left pull-left blue">
-            <i class="fa fa-home fa-4x"></i>
-          </div>
+   <?php $suma = $suma + $dato->numero; ?>
+  @endforeach
+  @foreach($datos as $dato)
+  <div class="col-md-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title text-md-center text-xl-left"> {{$dato->centro_salud}} </p>
+        <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+          <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"> {{$dato->numero}} </h3>
+          <i class="ti-calendar icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
         </div>
-        <div class="col-md-9 col-sm-12 col-xs-12">
-          <div class="panel-right">
-        	   <h3>{{$dato->numero}}</h3> <small>{{$dato->sigla }}</small>
-            <strong> {{$dato->centro_salud }} </strong>
-          </div>
-        </div>
+        <p class="mb-0 mt-2 text-danger"> <?php echo  (($dato->numero * 100 ) / $suma ); ?> % <span class="text-black ml-1"><small>{{$dato->sigla}}</small></span></p>
       </div>
     </div>
   </div>
   @endforeach
+@endsection
 
+@section('cuerpo')
 @endsection
 
 @section('js')

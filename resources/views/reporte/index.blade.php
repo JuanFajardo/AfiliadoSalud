@@ -1,19 +1,15 @@
-@extends('gamp')
+@extends('master')
 
 @section('title') Reporte @endsection
 
-@section('ventana') Reporte
-@endsection
-@section('descripcion') reporte de los centros de salud @endsection
 @section('titulo')
-  <a href="{{asset('index.php')}}" style="color:#fff;"> <i class="fa fa-home"></i> Gobierno Autónomo Municipal de Potosi - Ciudad Modelo </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+  <h4> <i class="ti-bookmark-alt menu-icon"></i> Reporte</h4>
  @endsection
 
-@section('menuReporte')
- class="active-menu"
+@section('reporte')
+ active
 @endsection
+
 
 @section('cuerpo')
 {!! Form::open(['accept-charset'=>'UTF-8', 'enctype'=>'multipart/form-data', 'method'=>'POST', 'files'=>true, 'autocomplete'=>'off', 'id'=>'form-insert'] ) !!}
@@ -29,25 +25,24 @@
   </div>
   <div class="col-md-3">
     <label for="salud" > <b><i>Centro de Salud</i></b> </label>
-    {!! Form::select('salud', ["PAILAVIRI"=>"PAILAVIRI", "CERRO DE PLATA"=>"CERRO DE PLATA", "POTOSI"=>"POTOSI", "SAN ANSELMO"=>"SAN ANSELMO", "VILLA MECANICOS"=>"VILLA MECANICOS", "SAN PEDRO"=>"SAN PEDRO", "VILLA COLON"=>"VILLA COLON", "SAN BENITO"=>"SAN BENITO", "SAN GERARDO"=>"SAN GERARDO", "PARI ORCKO"=>"PARI ORCKO", "CANTUMARCA"=>"CANTUMARCA", "VILLA VENEZUELA"=>"VILLA VENEZUELA", "PLAN 40"=>"PLAN 40", "DELICIAS"=>"DELICIAS", "SAGRADA FAMILIA"=>"SAGRADA FAMILIA", "SAN CRISTOBAL"=>"SAN CRISTOBAL", "AZANGARO"=>"AZANGARO", "MIRAFLORES"=>"MIRAFLORES", "BOLIVIANO CUBANO"=>"BOLIVIANO CUBANO", "HOSPITAL SAN ROQUE"=>"HOSPITAL SAN ROQUE", "HOSPITAL CALCUTA"=>"HOSPITAL CALCUTA" ], null, ['class'=>'form-control', 'placeholder'=>'todo', 'id'=>'salud']) !!}
+    {!! Form::select('salud', $centros, null, ['class'=>'form-control', 'placeholder'=>'todo', 'id'=>'salud']) !!}
   </div>
   <div class="col-md-3">
     <label for="usuario" > <b><i>Usuario</i></b> </label>
-    {!! Form::select('usuario', \App\User::pluck('email', 'id'), null, ['class'=>'form-control', 'placeholder'=>'todo', 'id'=>'usuario']) !!}
+    {!! Form::select('usuario', $usuarios, null, ['class'=>'form-control', 'placeholder'=>'todo', 'id'=>'usuario']) !!}
   </div>
 
 </div>
 
-<br><br>
-<div class="row">
-  <div class="col-md-4">
-    <button type="submit" name="btn" value="pdf" class="btn btn-danger"> <i class="fa fa-download"></i> Reporte Generado en PDF</button>
+<div class="row" style="padding-top:20px;">
+  <div class="col-md-4" style="padding-top:10px;">
+    <button type="submit" name="btn" value="pdf" class="btn btn-danger btn-icon-text"> <i class="ti-agenda menu-icon"></i> Reporte Generado en PDF</button>
   </div>
-  <div class="col-md-4">
-    <button type="submit" name="btn"  value="xls" class="btn btn-success"> <i class="fa fa-download"></i> Reporte Generado en EXCEL</button>
+  <div class="col-md-4" style="padding-top:10px;">
+    <button type="submit" name="btn"  value="xls" class="btn btn-success btn-icon-text"> <i class="ti-receipt menu-icon"></i> Reporte Generado en EXCEL</button>
   </div>
-  <div class="col-md-4">
-    <button type="submit" name="btn"  value="doc" class="btn btn-primary"> <i class="fa fa-file-text"></i> Reporte Generado en HTML</button>
+  <div class="col-md-4" style="padding-top:10px;">
+    <button type="submit" name="btn"  value="doc" class="btn btn-primary btn-icon-text"> <i class=" ti-html5 menu-icon"></i> Reporte Generado en HTML</button>
   </div>
 </div>
 {!! Form::close() !!}
