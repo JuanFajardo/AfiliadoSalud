@@ -16,21 +16,36 @@ Route::get('/', function () {
       $link = asset('index.php/login');
       return redirect($link);
     }else
-      return redirect('/Afiliado');
+      return redirect('/');
 });
 
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function(){
+  if ( !isset( \Auth::user()->id ) ){
+    $link = asset('index.php/login');
+    return redirect($link);
+  }else
+    return redirect('/');
+});
+
+Route::get('/', 'AfiliadoController@index');
+
+
+Route::resource('Centro', 'CentroController');
 Route::resource('Afiliado', 'AfiliadoController');
+
 //Busqueda Afgiliado
 Route::get('Buscar', 'AfiliadoController@buscarGet');
 Route::post('Buscar', 'AfiliadoController@buscarPost');
+
 //Reporte
 Route::get('/Reporte', 'ReporteController@index');
 Route::post('/Reporte', 'ReporteController@reporte');
+
 //Cambio de contraseña por perfil
 Route::get('/clave', 'ReporteController@claveGet')->name('usuario.clave');
 Route::post('/clave', 'ReporteController@clavePost')->name('usuario.cambiar');
+
 // Administracion de Usuarios
 Route::get('usuarios', 'UsuarioController@index');
 Route::get('usuarios/create', 'UsuarioController@showRegistrationForm');
@@ -41,5 +56,6 @@ Route::patch('usuarios/{id}', 'UsuarioController@update')->name('usuario.update'
 Route::get('usuarios/info/ver', 'UsuarioController@profile');
 Route::post('usuarios/info/ver', 'UsuarioController@profileActulizar');
 
-
 Auth::routes();
+Route::get('/Encargado/Agregar/{id}', 'UsuarioController@encargadoAgregar');
+Route::get('/Encargado/Eliminar/{id}', 'UsuarioController@encargadoEliminar');
