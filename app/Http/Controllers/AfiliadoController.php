@@ -84,36 +84,40 @@ class AfiliadoController extends Controller
   }
 
   public function buscarPost(Request $request){
+
     if($request->boton == "Limpiar Datos"){
-      return redirect('Buscar');
+      return redirect('/Buscar#Datos');
     }
-    
+
     $log = new \App\Log;
     $log->usuario = \Auth::user()->name;
     $log->ip = \Request::ip();
-    $log->dato = $request->ci . " " . $request->nombre . " " . $request->paterno . " " . $request->materno;
+    $log->dato = $request->ci . " " . $request->nombre . " " . $request->paterno . " " . $request->materno . " " . $request->fecha_nacimiento;
     $log->opcion = "";
     $log->centrosalud = \Auth::user()->salud;
     $log->save();
 
-    $ci = $nombre = $paterno = $materno = " 1 = 1";
+    $ci = $nombre = $paterno = $materno = $fecha_nacimiento = " 1 = 1";
     $link = asset('index.php/Buscar');
 
     if(isset($request->ci) && strlen($request->ci) > 4 ){
       $ci = " carnet like ('".$request->ci."%') ";
-    }elseif($request->ci == "" && $request->nombre  == "" && $request->paterno == ""  && $request->materno == "" ){
+    }elseif($request->ci == "" && $request->nombre  == "" && $request->paterno == ""  && $request->materno == "" && $request->fecha_nacimiento == "" ){
       return "<script>alert('Los campos de busqueda estan vacios'); location.href='".$link."';</script>";
+
     }elseif( $request->paterno == ""  && $request->materno == ""  && $request->ci == ""){
       return "<script>alert('Ingrese algun apellido'); location.href='".$link."';</script>";
+
     }elseif( ($request->nombre == ""  && $request->materno != "" && $request->ci == "") || ($request->nombre == ""  && $request->paterno != "" && $request->ci == "" ) ){
       return "<script>alert('Ingrese un nombre'); location.href='".$link."';</script>";
+
     }elseif(
       ($request->ci[0] != "%" && $request->ci != "'"  && $request->ci[0] == " " || !isset($request->ci) )||
       ($request->nombre[0] != "%" && $request->nombre != "'"  && $request->nombre[0] == " " && !isset($request->nombre) )||
       ($request->paterno[0] != "%" && $request->paterno != "'"  && $request->paterno[0] == " " && !isset($request->paterno) )||
-      ($request->materno[0] != "%" && $request->materno != "'"  && $request->materno[0] == " " && !isset($request->materno))
+      ($request->materno[0] != "%" && $request->materno != "'"  && $request->materno[0] == " " && !isset($request->materno))||
+      ($request->fecha_nacimiento[0] != "%" && $request->fecha_nacimiento != "'"  && $request->fecha_nacimiento[0] == " " && !isset($request->fecha_nacimiento))
     ){
-
 
       if( isset($request->nombre) ){
         $nombre = " nombre like ('%".strtoupper($request->nombre)."%')";
@@ -124,18 +128,20 @@ class AfiliadoController extends Controller
       if( isset($request->materno) ){
         $materno = " materno like ('".strtoupper($request->materno)."%')";
       }
+      if( isset($request->fecha_nacimiento) ){
+        $fecha_nacimiento = " fecha_nacimiento = '". date('Y-m-d' , strtotime($request->fecha_nacimiento))."' ";
+      }
 
     }else{
-
-      $ci = $nombre = $paterno = $materno = " 1 = -1";
+      $ci = $nombre = $paterno = $materno = $fecha_nacimiento = " 1 = -1";
     }
-
     $datos = \DB::table('afiliados')
                                     //->whereRaw($request->opcion, 'like', strtoupper( $request->dato.'%'))
                                     ->whereRaw( $ci )
                                     ->whereRaw( $nombre )
                                     ->whereRaw( $paterno )
                                     ->whereRaw( $materno )
+                                    ->whereRaw( $fecha_nacimiento )
                                     ->get();
     if( count($datos) == 0){
       $msj = "No se encontro ningun dato.";
