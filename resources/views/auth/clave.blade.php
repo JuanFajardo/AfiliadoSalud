@@ -1,13 +1,22 @@
-@extends('layouts.app')
+@extends('master')
 
-@section('content')<br><br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Gobierno Autónomo Municipal de Potosí - Cambiar la clave de ingreso al sistema</div>
+@section('title') Usuarios @endsection
 
-                <div class="panel-body">
+@section('titulo')
+  <h4> <i class="ti-user menu-icon"></i> Usuarios </h4>
+ @endsection
+
+@section('usuario')
+ active
+@endsection
+
+@section('boton')
+  <a   href="{{url('usuarios')}}"  class="nuevo btn btn-primary btn-icon-text btn-rounded"  accesskey="n"> <i class="ti-plus btn-icon-prepend"></i> I<u>n</u>inicio </a>
+@endsection
+
+
+@section('cuerpo')
+
                     <form class="form-horizontal" method="POST" action="{{ route('usuario.cambiar') }}">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -26,9 +35,5 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                
 @endsection

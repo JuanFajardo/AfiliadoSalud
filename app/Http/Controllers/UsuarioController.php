@@ -9,6 +9,7 @@ use App\User;
 
 class UsuarioController extends Controller
 {
+
   public function __construct(){
     $this->middleware('auth');
     if( \Auth::guest() )
@@ -24,8 +25,7 @@ class UsuarioController extends Controller
       return view('auth.register');
   }
 
-  protected function validator(array $data)
-  {
+  protected function validator(array $data){
       return Validator::make($data, [
 
           'name' => 'required|max:255',
@@ -36,9 +36,7 @@ class UsuarioController extends Controller
       ]);
   }
 
-  protected function create(Request $data)
-  {
-    //return "bett0";
+  protected function create(Request $data){
       User::create([
           'name' => $data['name'],
           'email' => $data['email'],
@@ -53,30 +51,36 @@ class UsuarioController extends Controller
 
   public function edit($id){
     $user = User::find($id);
-    return view('auth.editar', compact('user'));
+    $centros = \App\Encargado::Where('id_user', '=', $id )->get();
+    return view('auth.editar', compact('user', 'centros'));
   }
 
   public function update(Request $request, $id){
+
     $user = User::find($id);
-    $user->name       = $request->input('name');
-    $user->email      = $request->input('email');
-    if( strlen($request->input('password')) > 0 )
-      $user->password = bcrypt($request->input('password'));
-    $user->grupo      = $request->input('grupo');
-    $user->salud      = $request->input('salud');
-    $user->save();
-    return redirect('/usuarios');
+
+    if (  \Auth::user()->grupo == "Administrador" ||
+          ( \Auth::user()->grupo == "Encargado" && $user->id == \Auth::user()->id ) ||
+          ( \Auth::user()->grupo == "Encargado" && $user->grupo == "Usuario")  ){
+
+      $user = User::find($id);
+      $user->name       = $request->input('name');
+      $user->email      = $request->input('email');
+      if( strlen($request->input('password')) > 0 )
+        $user->password = bcrypt($request->input('password'));
+      $user->grupo      = $request->input('grupo');
+      $user->salud      = $request->input('salud');
+      $user->save();
+      return redirect('/usuarios');
+    }else {
+      return redirect('/usuarios');
+    }
+
   }
 
   public function viewuser($id){
     $user = User::find($id);
     return view('auth.ver', compact('user'));
-  }
-
-  public function delete($id){/*
-    $user = User::find($id);
-    $user->delete();
-    return redirect()->action('Auth\AuthController@index');*/
   }
 
   public function profile(Request $request){
@@ -106,6 +110,46 @@ class UsuarioController extends Controller
     $user->estado     = $estado;
     $user->save();
     return  redirect('usuarios/info/ver?msj=1');
+  }
+
+  public function delete($id){/*
+    $user = User::find($id);
+    $user->delete();
+    return redirect()->action('Auth\AuthController@index');*/
+  }
+
+  public function encargadoAgregar(Request $request, $id){
+    $datos = explode('|', $id);
+    if( count($datos) == 2 ){
+      $salud= $datos[0];
+      $id   = $datos[1];
+      $usuario = \App\User::find($id);
+      if( count($usuario) >0 ){
+
+        $contador = \DB::table('encargados')->where('id_user', '=', $usuario->id)->count();
+        //return $contador."- ".$usuario->id;
+        if( $contador < 3 ){
+          $dato = new \App\Encargado;
+          $dato->id_user      = $usuario->id;
+          $dato->centro_salud = $salud;
+          $dato->save();
+          $datos = \App\Encargado::Where('id_user', '=', $usuario->id)->get();
+          return $datos;
+        }else{
+          $datos = \App\Encargado::Where('id_user', '=', $usuario->id)->get();
+          return $datos;
+        }
+      }else{
+          return array(["error"=>"error"]);
+      }
+    }else{
+      return array(["error"=>"error"]);
+    }
+  }
+
+  public function encargadoEliminar($id){
+    $dato = \App\Encargado::find($id);
+    $dato->delete();
   }
 
 }

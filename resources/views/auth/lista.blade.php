@@ -1,48 +1,45 @@
-@extends('gamp')
+@extends('master')
 
-@section('title') Usuario @endsection
+@section('title') Usuarios @endsection
 
-@section('ventana') Usuario
-@endsection
-@section('descripcion') por nombre, paterno, materno y ci @endsection
 @section('titulo')
-  <a href="{{asset('index.php')}}" style="color:#fff;"> <i class="fa fa-home"></i> Gobierno Autónomo Municipal de Potosi - Ciudad Modelo </a>
-  <a href="{{url('usuarios/create')}}" class="btn  btn-info pull-right">Nuevo <i class="fa fa-plus"></i></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+  <h4> <i class="ti-user menu-icon"></i> Usuarios </h4>
  @endsection
 
-@section('menuUsuario')
- class="active-menu"
+@section('usuario')
+ active
+@endsection
+
+@section('boton')
+  <a   href="{{url('usuarios/create')}}"  class="nuevo btn btn-primary btn-icon-text btn-rounded"  accesskey="n"> <i class="ti-plus btn-icon-prepend"></i> <u>N</u>uevo </a>
 @endsection
 
 @section('cuerpo')
-
-            <div class="panel-body">
-                <table id="datosTabla" class="table datatable">
-                    <thead>
-                        <tr>
-                            <th>Nombres y Apellidos</th>
-                            <th>Usuario</th>
-                            <th>Grupo</th>
-                            <th>Centro Salud</th>
-                            <th>Editar</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach($usuarios as $usuario)
-                        <tr>
-                            <td>{{$usuario->email}}</td>
-                            <td>{{$usuario->name}}</td>
-                            <td>{{$usuario->grupo}}</td>
-                            <td>{{$usuario->salud}}</td>
-                            <td><a href="{{ url('usuarios/'.$usuario->id.'/edit') }}" style="color:#f0ad4e;"> <i class="fa fa-pencil" aria-hidden="true"></i>  </a></td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                </table>
-
+<div class="table-responsive" id="Buscar">
+  <div class="panel-body">
+    <table id="datosTabla" class="table datatable">
+      <thead>
+        <tr>
+          <th>Nombres y Apellidos</th>
+          <th>Usuario</th>
+          <th>Grupo</th>
+          <th>Centro Salud</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+      @foreach($usuarios as $usuario)
+        <tr>
+          <td>{{$usuario->email}}</td>
+          <td>{{$usuario->name}}</td>
+          <td>{{$usuario->grupo}}</td>
+          <td>{{$usuario->salud}}</td>
+          <td><a href="{{ url('usuarios/'.$usuario->id.'/edit') }}" style="color:#f0ad4e;"> <i class="ti-pencil menu-icon"></i>Editar</a>  </a></td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+</div>
 
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
