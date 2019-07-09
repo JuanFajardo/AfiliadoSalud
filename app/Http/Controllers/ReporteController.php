@@ -14,7 +14,7 @@ class ReporteController extends Controller
 
   public function index(){
 
-      if( \Auth::user()->grupo == "Adminsitrador"  ){
+      if( \Auth::user()->grupo == "Administrador"  ){
         $centros = \DB::table('centros')->pluck('centro', 'centro');
         $usuarios = \DB::table('users')->pluck('email', 'id');
       }else{
@@ -34,7 +34,7 @@ class ReporteController extends Controller
       $usuario  = $request->usuario;	      //null
       $btn	    = $request->btn;       //"pdf"
 
-      if( \Auth::user()->grupo == "Adminsitrador"  ){
+      if( \Auth::user()->grupo == "Administrador"  ){
 
         $raw1 =  $salud   != null   ? " centrosalud = '".$salud."' " : " 1 = 1 ";
         $raw2 =  $usuario != null   ? " usuario = '".$usuario."' " : " 1 = 1 ";
@@ -59,22 +59,17 @@ class ReporteController extends Controller
         }
         $cadena2 =  substr($cadena2, 0, -1);
 
-        //return $cadena1 . " - " .$cadena2;
-        return " centrosalud in ( ".$cadena1." )";
+        return $cadena1  . " -- " . $cadena2;
+
         $raw1 =  $salud   != null   ? " centrosalud = '".$salud."' " : " centrosalud in ( ".$cadena1." )";
         $raw2 =  $usuario != null   ? " usuario = '".$usuario."' " : " usuario in (".$cadena2.") ";
 
       }
-
-
-        $datos = \DB::table('logs')->where('created_at', '>', $inicio)
+      $datos = \DB::table('logs')->where('created_at', '>', $inicio)
                                  ->where('created_at', '<', $fin)
                                  ->whereRaw($raw1)
                                  ->whereRaw($raw2)
                                  ->get();
-                                 //->toSql();
-      return $datos;
-
       if($btn == "doc"){
         return view('reporte.pdf', compact('datos', 'inicio', 'fin'));
       }elseif ($btn == "xls") {
@@ -83,6 +78,7 @@ class ReporteController extends Controller
         $pdf = \PDF::loadView('reporte.pdf', compact('datos', 'inicio', 'fin'));
         return $pdf->download('listado.pdf');
       }
+
     }
 
 

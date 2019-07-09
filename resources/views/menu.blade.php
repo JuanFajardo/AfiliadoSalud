@@ -1,14 +1,14 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item @yield('menu')">
-      <a class="nav-link" href="{{ url('/') }}">
+      <a class="nav-link" href="{{ asset('/index.php') }}">
         <i class="ti-home menu-icon"></i>
         <span class="menu-title" accesskey="i"><u>I</u>nicio</span>
       </a>
     </li>
 
     <li class="nav-item @yield('buscar')">
-      <a class="nav-link" href="{{ url('/Buscar') }}">
+      <a class="nav-link" href="{{ asset('/index.php/Buscar') }}">
         <i class="ti-search  menu-icon"></i>
         <span class="menu-title" accesskey="b"><u>B</u>uscar</span>
       </a>
@@ -16,21 +16,21 @@
 
     @if( trim(\Auth::user()->grupo) == "Administrador" ||  trim(\Auth::user()->grupo) == "Encargado" )
     <li class="nav-item @yield('reporte')">
-      <a class="nav-link" href="{{ url('Reporte') }}">
+      <a class="nav-link" href="{{ asset('/index.php/Reporte') }}">
         <i class="ti-bookmark-alt menu-icon"></i>
         <span class="menu-title" accesskey="r"><u>R</u>eporte</span>
       </a>
     </li>
 
     <li class="nav-item @yield('centro')">
-      <a class="nav-link" href="{{ url('/Centro') }}">
+      <a class="nav-link" href="{{ asset('/index.php/Centro') }}">
         <i class="ti-heart-broken menu-icon"></i>
         <span class="menu-title" accesskey="c"><u>C</u>entro</span>
       </a>
     </li>
 
     <li class="nav-item @yield('usuario')">
-      <a class="nav-link" href="{{ url('/usuarios') }}">
+      <a class="nav-link" href="{{ asset('/index.php/usuarios') }}">
         <i class="ti-user menu-icon"></i>
         <span class="menu-title" accesskey="u"><u>U</u>suarios</span>
       </a>
