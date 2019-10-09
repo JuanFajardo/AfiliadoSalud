@@ -15,12 +15,12 @@ class ReporteController extends Controller
   public function index(){
     if( \Auth::user()->grupo == "Administrador"  ){
       $centros = \DB::table('centros')->pluck('centro', 'centro');
-      $usuarios = \DB::table('users')->pluck('email', 'id');
+      $usuarios = \DB::table('users')->pluck('email', 'name');
     }else{
       $centros = \DB::table('encargados')->where( 'id_user', '=', \Auth::user()->id )->pluck('centro_salud', 'centro_salud');
       $usuarios = \DB::table('users')->where('id',     '=',  \Auth::user()->id)
                                      ->orWhere('grupo',  '=', 'Usuario' )
-                                     ->pluck('users.email', 'users.id');
+                                     ->pluck('users.email', 'users.name');
     }
     return view('reporte.index', compact('centros', 'usuarios'));
   }
@@ -34,7 +34,7 @@ class ReporteController extends Controller
 
     if( \Auth::user()->grupo == "Administrador"  ){
       $raw1 =  $salud   != null   ? " centrosalud = '".$salud."' " : " 1 = 1 ";
-      $raw2 =  $usuario != null   ? " usuario like ('".$usuario."%)' " : " 1 = 1 ";
+      $raw2 =  $usuario != null   ? " usuario like ('".$usuario."'%) " : " 1 = 1 ";
     }else{
       $centros = \DB::table('encargados')->where( 'id_user','=', \Auth::user()->id )->get();
       $usuarios = \DB::table('users')    ->where('id',      '=', \Auth::user()->id)
