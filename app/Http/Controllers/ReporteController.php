@@ -34,7 +34,7 @@ class ReporteController extends Controller
 
     if( \Auth::user()->grupo == "Administrador"  ){
       $raw1 =  $salud   != null   ? " centrosalud = '".$salud."' " : " 1 = 1 ";
-      $raw2 =  $usuario != null   ? " usuario like ('".$usuario."'%) " : " 1 = 1 ";
+      $raw2 =  $usuario != null   ? " usuario like ('".$usuario."') " : " 1 = 1 ";
     }else{
       $centros = \DB::table('encargados')->where( 'id_user','=', \Auth::user()->id )->get();
       $usuarios = \DB::table('users')    ->where('id',      '=', \Auth::user()->id)
