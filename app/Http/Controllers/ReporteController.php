@@ -75,6 +75,15 @@ class ReporteController extends Controller
     return view('auth.clave');
   }
 
+  public function formulario($id){
+    $dato = \App\Afiliado::find($id);
+    //return view('afiliado.formulario', compact('dato'));
+
+    $pdf = \PDF::loadView('afiliado.formulario', compact('dato'));
+    return $pdf->download($dato->nombre.'.pdf');
+
+  }
+
   public function clavePost(Request $request){
     //return $request->all();
     /*$id = \Auth::user()->id;

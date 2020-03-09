@@ -15,10 +15,11 @@
 {!! Form::open(['accept-charset'=>'UTF-8', 'enctype'=>'multipart/form-data', 'method'=>'POST', 'files'=>true, 'autocomplete'=>'off', 'id'=>'form-insert'] ) !!}
 <div id="Datos">
   <div class="row">
-    <div class="col-md-12 col-xl-3">
+    <!--<div class="col-md-12 col-xl-3">
       <label for="">CI</label>
       {!! Form::text('ci', null, ['class'=>'form-control', 'placeholder'=>'Introdusca el CI', 'id'=>'ci', 'autofocus']) !!}
-    </div>
+    </div>-->
+    {!! Form::hidden('ci', null ) !!}
     <div class="col-md-12 col-xl-3">
       <label for="">Nombre</label>
       {!! Form::text('nombre', null, ['class'=>'form-control', 'placeholder'=>'Introdusca el Nombre', 'id'=>'nombre']) !!}
@@ -31,10 +32,11 @@
       <label for="">Ap. Materno</label>
       {!! Form::text('materno', null, ['class'=>'form-control', 'placeholder'=>'Introdusca el Materno', 'id'=>'materno']) !!}
     </div>
-    <div class="col-md-12 col-xl-3">
+    <!--<div class="col-md-12 col-xl-3">
       <label for="">Fecha Nac.</label>
       {!! Form::date('fecha_nacimiento', null, ['class'=>'form-control', 'placeholder'=>'', 'id'=>'fecha_nacimiento_']) !!}
-    </div>
+    </div>-->
+    {!! Form::hidden('fecha_nacimiento', null ) !!}
   </div>
 
   <div class="row" style="padding-top:15px;">
@@ -69,6 +71,7 @@
         <th>Sexo</th>
         <th>Regional</th>
         <th>C. Salud</th>
+        <th>Imprimir</th>
       </tr>
     </thead>
     <tbody>
@@ -81,6 +84,7 @@
           <td>{{ $dato->sexo }}</td>
           <td>{{ $dato->regional }}</td>
           <td>{{ $dato->centro_salud }}</td>
+          <td> <a href="{{asset('index.php/reporte/Formulario/'.$dato->id)}}"> <i class="ti-printer menu-icon"></i> </a></td>
         </tr>
       @endforeach
     </tbody>

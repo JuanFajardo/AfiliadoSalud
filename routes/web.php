@@ -49,6 +49,7 @@ Route::post('Buscar', 'AfiliadoController@buscarPost');
 //Reporte
 Route::get('/Reporte', 'ReporteController@index');
 Route::post('/Reporte', 'ReporteController@reporte');
+Route::get('/reporte/Formulario/{id}', 'ReporteController@formulario');
 
 //Cambio de contraseña por perfil
 Route::get('/clave', 'ReporteController@claveGet')->name('usuario.clave');
